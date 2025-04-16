@@ -1,0 +1,28 @@
+services:
+  auto.parts.shop-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: AutoPartsShopBackend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://auto_parts_shop-db:3306/auto_parts_shop_db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    depends_on:
+      - auto_parts_shop-db
+
+  auto_parts_shop-db:
+    image: mysql:8.0
+    container_name: AutoPartsShopDB
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: auto_parts_shop_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - auto_parts_shop-db-data:/var/lib/mysql
+
+volumes:
+  auto_parts_shop-db-data:
