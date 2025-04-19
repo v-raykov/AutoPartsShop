@@ -5,6 +5,7 @@ import com.viktor.oop.car.parts.shop.model.dto.CarDto;
 import com.viktor.oop.car.parts.shop.model.entity.Car;
 import com.viktor.oop.car.parts.shop.model.event.AddCarToPartEvent;
 import com.viktor.oop.car.parts.shop.model.event.CarCreationEvent;
+import com.viktor.oop.car.parts.shop.model.event.CarDeletionEvent;
 import com.viktor.oop.car.parts.shop.repository.CarRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -42,9 +43,11 @@ public class CarService {
         return modelMapper.map(carRepository.save(car), CarDto.class);
     }
 
+    @Transactional
     public void deleteCarById(UUID id) {
-        carRepository.deleteById(id);
-        System.out.println(carRepository.existsById(id));
+        var car = getCarById(id);
+        eventPublisher.publishEvent(new CarDeletionEvent(car));
+        carRepository.delete(car);
     }
 
     @EventListener

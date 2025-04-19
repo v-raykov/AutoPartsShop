@@ -59,13 +59,17 @@ def create_car():
 
 def create_part():
     categories = ["ENGINE", "ELECTRICAL", "SUSPENSION", "INTERIOR", "EXTERIOR"]
+
+    # Select random cars to link the part to (between 1 and 3 cars)
+    part_car_ids = random.sample(car_ids, k=random.randint(1, min(3, len(car_ids)))) if car_ids else []
+
     data = {
         "name": fake.word().capitalize(),
         "category": random.choice(categories),
         "priceBuy": random.randint(50, 500),
         "priceSell": random.randint(501, 1000),
         "quantity": random.randint(1, 50),
-        "carIds": random.sample(car_ids, k=random.randint(1, min(3, len(car_ids)))) if car_ids else []
+        "cars": part_car_ids  # Linking cars to part here
     }
     response = requests.post(f"{BASE_URL}/part", json=data)
     if response.status_code == 201:

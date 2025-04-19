@@ -5,11 +5,14 @@ import com.viktor.oop.car.parts.shop.model.dto.ManufacturerDto;
 import com.viktor.oop.car.parts.shop.model.dto.update.ManufacturerUpdateDto;
 import com.viktor.oop.car.parts.shop.model.entity.Manufacturer;
 import com.viktor.oop.car.parts.shop.model.event.CarCreationEvent;
+import com.viktor.oop.car.parts.shop.model.event.CarDeletionEvent;
 import com.viktor.oop.car.parts.shop.repository.ManufacturerRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.List;
 import java.util.UUID;
@@ -49,9 +52,19 @@ public class ManufacturerService {
     @EventListener
     public void onCarCreationEvent(CarCreationEvent event) {
         var manufacturer = event.manufacturer();
-        manufacturer.add(event.car());
+        manufacturer.addCar(event.car());
         manufacturerRepository.save(manufacturer);
     }
+
+    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    public void onCarDeletionEvent(CarDeletionEvent event) {
+        var car = event.car();
+        manufacturerRepository.findByCarsId(car.getId()).forEach(manufacturer -> {
+            manufacturer.removeCar(car);
+            manufacturerRepository.save(manufacturer);
+        });
+    }
+
 
     private Manufacturer getManufacturerById(UUID id) {
         return manufacturerRepository.findById(id)

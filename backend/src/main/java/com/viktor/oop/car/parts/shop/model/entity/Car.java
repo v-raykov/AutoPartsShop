@@ -25,7 +25,7 @@ public class Car {
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private Brand brand;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Part> parts;
 
     private String model;

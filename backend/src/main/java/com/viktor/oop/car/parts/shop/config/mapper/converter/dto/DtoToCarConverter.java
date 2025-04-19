@@ -24,7 +24,8 @@ public class DtoToCarConverter implements Converter<CarDto, Car> {
         var source = mappingContext.getSource();
         var manufacturer = manufacturerRetriever.apply(source.getManufacturerId());
         var brand = brandRetriever.apply(source.getBrandId());
-        var parts = partRetriever.apply(source.getPartIds());
+        var partIds = source.getPartIds();
+        var parts = partIds == null ? null : partRetriever.apply(source.getPartIds());
         return new Car(null,  manufacturer, brand, parts, source.getModel(), source.getYear());
     }
 }

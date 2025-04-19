@@ -4,11 +4,14 @@ import com.viktor.oop.car.parts.shop.config.exception.BrandNotFoundException;
 import com.viktor.oop.car.parts.shop.model.dto.BrandDto;
 import com.viktor.oop.car.parts.shop.model.entity.Brand;
 import com.viktor.oop.car.parts.shop.model.event.CarCreationEvent;
+import com.viktor.oop.car.parts.shop.model.event.CarDeletionEvent;
 import com.viktor.oop.car.parts.shop.repository.BrandRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.List;
 import java.util.UUID;
@@ -40,8 +43,17 @@ public class BrandService {
     @EventListener
     public void onCarCreationEvent(CarCreationEvent event) {
         var brand = event.brand();
-        brand.add(event.car());
+        brand.addCar(event.car());
         brandRepository.save(brand);
+    }
+
+    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    public void onCarDeletionEvent(CarDeletionEvent event) {
+        var car = event.car();
+        brandRepository.findByCarsId(car.getId()).forEach(brand -> {
+            brand.removeCar(car);
+            brandRepository.save(brand);
+        });
     }
 
     private Brand getBrandById(UUID id) {

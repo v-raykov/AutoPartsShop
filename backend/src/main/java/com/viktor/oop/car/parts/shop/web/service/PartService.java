@@ -5,11 +5,14 @@ import com.viktor.oop.car.parts.shop.model.dto.PartDto;
 import com.viktor.oop.car.parts.shop.model.dto.update.PartUpdateDto;
 import com.viktor.oop.car.parts.shop.model.entity.Part;
 import com.viktor.oop.car.parts.shop.model.event.AddCarToPartEvent;
+import com.viktor.oop.car.parts.shop.model.event.CarDeletionEvent;
 import com.viktor.oop.car.parts.shop.repository.PartRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.List;
 import java.util.UUID;
@@ -65,6 +68,15 @@ public class PartService {
         var part = getPartById(id);
         updateEntity(dto, part);
         partRepository.save(part);
+    }
+
+    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    public void onCarDeletionEvent(CarDeletionEvent event) {
+        var car = event.car();
+        partRepository.findByCarsId(car.getId()).forEach(part -> {
+            part.removeCar(car);
+            partRepository.save(part);
+        });
     }
 
     private Part getPartById(UUID id) {

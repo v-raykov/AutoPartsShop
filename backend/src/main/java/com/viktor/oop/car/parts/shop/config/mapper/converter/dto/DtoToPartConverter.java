@@ -18,7 +18,8 @@ public class DtoToPartConverter implements Converter<PartDto, Part> {
     @Override
     public Part convert(MappingContext<PartDto, Part> mappingContext) {
         var source = mappingContext.getSource();
-        var cars = source.getCarIds().stream()
+        var carIds = source.getCarIds();
+        var cars = carIds == null ? null : carIds.stream()
                 .map(carRetriever)
                 .collect(Collectors.toSet());
         return new Part(null, source.getName(), source.getCategory(), source.getPriceBuy(), source.getPriceSell(), source.getQuantity(), cars);
