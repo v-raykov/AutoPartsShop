@@ -1,0 +1,9 @@
+# run `pip install -r requirements.txt` to install the dependancies of this script
+
+certifi==2025.1.31
+charset-normalizer==3.4.1
+Faker==37.1.0
+idna==3.10
+requests==2.32.3
+tzdata==2025.2
+urllib3==2.4.0

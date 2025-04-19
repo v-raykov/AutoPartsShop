@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -23,6 +24,9 @@ public class Car {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private Brand brand;
+
+    @ManyToMany
+    private Set<Part> parts;
 
     private String model;
 

@@ -12,14 +12,19 @@ import com.viktor.oop.car.parts.shop.config.mapper.converter.entity.PartToDtoCon
 import com.viktor.oop.car.parts.shop.model.entity.Brand;
 import com.viktor.oop.car.parts.shop.model.entity.Car;
 import com.viktor.oop.car.parts.shop.model.entity.Manufacturer;
+import com.viktor.oop.car.parts.shop.model.entity.Part;
 import com.viktor.oop.car.parts.shop.repository.BrandRepository;
 import com.viktor.oop.car.parts.shop.repository.CarRepository;
 import com.viktor.oop.car.parts.shop.repository.ManufacturerRepository;
+import com.viktor.oop.car.parts.shop.repository.PartRepository;
+import jakarta.persistence.Id;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Configuration
@@ -28,6 +33,7 @@ public class ModelMapperConfig {
     private static final ModelMapper modelMapper = new ModelMapper();
     private final BrandRepository brandRepository;
     private final ManufacturerRepository manufacturerRepository;
+    private final PartRepository partRepository;
     private final CarRepository carRepository;
 
     @Bean
@@ -38,7 +44,7 @@ public class ModelMapperConfig {
         modelMapper.addConverter(new PartToDtoConverter());
 
         modelMapper.addConverter(new DtoToPartConverter(this::getCarById));
-        modelMapper.addConverter(new DtoToCarConverter(this::getManufacturerById, this::getBrandById));
+        modelMapper.addConverter(new DtoToCarConverter(this::getManufacturerById, this::getBrandById, this::getPartsByIds));
         return modelMapper;
     }
 
@@ -55,5 +61,9 @@ public class ModelMapperConfig {
     private Manufacturer getManufacturerById(UUID id) {
         return manufacturerRepository.findById(id)
                 .orElseThrow(() -> new ManufacturerNotFoundException(id.toString()));
+    }
+
+    private Set<Part> getPartsByIds(Set<UUID> ids) {
+        return new HashSet<>(partRepository.findAllById(ids));
     }
 }

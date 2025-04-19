@@ -3,6 +3,8 @@ package com.viktor.oop.car.parts.shop.model.dto;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -15,6 +17,7 @@ public class CarDto {
     private UUID manufacturerId;
     @NotNull(message = "Field 'brandId' is required")
     private UUID brandId;
+    private Set<UUID> partIds;
     private String model;
     private int year;
 }
