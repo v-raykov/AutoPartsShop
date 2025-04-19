@@ -8,17 +8,19 @@ import com.viktor.oop.car.parts.shop.model.event.AddCarToPartEvent;
 import com.viktor.oop.car.parts.shop.model.event.CarDeletionEvent;
 import com.viktor.oop.car.parts.shop.model.event.PartCreationEvent;
 import com.viktor.oop.car.parts.shop.repository.PartRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.proxy.HibernateProxy;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 import static com.viktor.oop.car.parts.shop.web.service.helper.Utilities.updateEntity;
 
@@ -28,6 +30,7 @@ public class PartService {
     private final PartRepository partRepository;
     private final ApplicationEventPublisher eventPublisher;
     private final ModelMapper modelMapper;
+    private final EntityManager entityManager;
 
     public List<PartDto> getAllPartDtos() {
         return partRepository.findAll().stream()
@@ -74,13 +77,12 @@ public class PartService {
         partRepository.save(part);
     }
 
-    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    @EventListener
     public void onCarDeletionEvent(CarDeletionEvent event) {
         var car = event.car();
-        partRepository.findByCarsId(car.getId()).forEach(part -> {
-            part.removeCar(car);
-            partRepository.save(part);
-        });
+        var parts = car.getParts();
+        parts.forEach(part -> part.removeCar(car));
+        partRepository.saveAll(parts);
     }
 
     private Part getPartById(UUID id) {

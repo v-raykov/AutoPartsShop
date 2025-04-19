@@ -8,6 +8,7 @@ import com.viktor.oop.car.parts.shop.model.event.CarCreationEvent;
 import com.viktor.oop.car.parts.shop.model.event.CarDeletionEvent;
 import com.viktor.oop.car.parts.shop.model.event.PartCreationEvent;
 import com.viktor.oop.car.parts.shop.repository.CarRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -16,11 +17,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +26,7 @@ import java.util.stream.Collectors;
 public class CarService {
     private final CarRepository carRepository;
     private final ApplicationEventPublisher eventPublisher;
+    private final EntityManager entityManager;
     private final ModelMapper modelMapper;
 
     public List<CarDto> getAllCarDtos() {
@@ -57,9 +56,9 @@ public class CarService {
     @TransactionalEventListener
     public void onPartCreationEvent(PartCreationEvent event) {
         var part = event.part();
-        carRepository.saveAll(part.getCars().stream()
-                .peek(car -> car.addPart(part))
-                .collect(Collectors.toSet()));
+        var cars = part.getCars();
+        cars.forEach(car -> car.addPart(part));
+        carRepository.saveAll(cars);
     }
 
     @EventListener
