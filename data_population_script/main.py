@@ -69,12 +69,12 @@ def create_part():
         "priceBuy": random.randint(50, 500),
         "priceSell": random.randint(501, 1000),
         "quantity": random.randint(1, 50),
-        "cars": part_car_ids  # Linking cars to part here
+        "carIds": part_car_ids  # Linking cars to part here
     }
     response = requests.post(f"{BASE_URL}/part", json=data)
     if response.status_code == 201:
         part_id = response.json()["id"]
-        print(f"Created part: {part_id}")
+        print(f"Created part: {part_id}, linked to cars: {part_car_ids}")
     else:
         print("Failed to create part", response.text)
 

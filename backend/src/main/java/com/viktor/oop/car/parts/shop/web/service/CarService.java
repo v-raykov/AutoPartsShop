@@ -6,6 +6,7 @@ import com.viktor.oop.car.parts.shop.model.entity.Car;
 import com.viktor.oop.car.parts.shop.model.event.AddCarToPartEvent;
 import com.viktor.oop.car.parts.shop.model.event.CarCreationEvent;
 import com.viktor.oop.car.parts.shop.model.event.CarDeletionEvent;
+import com.viktor.oop.car.parts.shop.model.event.PartCreationEvent;
 import com.viktor.oop.car.parts.shop.repository.CarRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +14,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.event.TransactionalEventListener;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,8 +43,7 @@ public class CarService {
     @Transactional
     public CarDto addCar(CarDto carDto) {
         var car = modelMapper.map(carDto, Car.class);
-        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> eventPublisher.publishEvent(new CarCreationEvent(car, car.getBrand(), car.getManufacturer())));
-        future.join();
+        eventPublisher.publishEvent(new CarCreationEvent(car, car.getBrand(), car.getManufacturer()));
         return modelMapper.map(carRepository.save(car), CarDto.class);
     }
 
@@ -50,10 +54,21 @@ public class CarService {
         carRepository.delete(car);
     }
 
+    @TransactionalEventListener
+    public void onPartCreationEvent(PartCreationEvent event) {
+        var part = event.part();
+        carRepository.saveAll(part.getCars().stream()
+                .peek(car -> car.addPart(part))
+                .collect(Collectors.toSet()));
+    }
+
     @EventListener
     public void onAddCarToPartEvent(AddCarToPartEvent event) {
         var car = getCarById(event.carId());
-        event.part().addCar(car);
+        var part = event.part();
+        part.addCar(car);
+        car.addPart(part);
+        carRepository.save(car);
     }
 
     private Car getCarById(UUID id) {

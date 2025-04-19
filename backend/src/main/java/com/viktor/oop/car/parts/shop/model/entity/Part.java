@@ -32,6 +32,11 @@ public class Part {
     private int quantity;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "part_car",
+            joinColumns = @JoinColumn(name = "part_id"),
+            inverseJoinColumns = @JoinColumn(name = "car_id")
+    )
     private Set<Car> cars;
 
     public void changeQuantity(int quantity) {

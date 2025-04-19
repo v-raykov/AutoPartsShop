@@ -25,10 +25,14 @@ public class Car {
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private Brand brand;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "cars", fetch = FetchType.EAGER)
     private Set<Part> parts;
 
     private String model;
 
     private int year;
+
+    public void addPart(Part part) {
+        parts.add(part);
+    }
 }

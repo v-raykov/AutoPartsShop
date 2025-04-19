@@ -1,7 +1,6 @@
 package com.viktor.oop.car.parts.shop.config.mapper;
 
 import com.viktor.oop.car.parts.shop.config.exception.BrandNotFoundException;
-import com.viktor.oop.car.parts.shop.config.exception.CarNotFoundException;
 import com.viktor.oop.car.parts.shop.config.exception.ManufacturerNotFoundException;
 import com.viktor.oop.car.parts.shop.config.mapper.converter.dto.DtoToCarConverter;
 import com.viktor.oop.car.parts.shop.config.mapper.converter.dto.DtoToPartConverter;
@@ -17,7 +16,6 @@ import com.viktor.oop.car.parts.shop.repository.BrandRepository;
 import com.viktor.oop.car.parts.shop.repository.CarRepository;
 import com.viktor.oop.car.parts.shop.repository.ManufacturerRepository;
 import com.viktor.oop.car.parts.shop.repository.PartRepository;
-import jakarta.persistence.Id;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -43,14 +41,9 @@ public class ModelMapperConfig {
         modelMapper.addConverter(new ManufacturerToDtoConverter());
         modelMapper.addConverter(new PartToDtoConverter());
 
-        modelMapper.addConverter(new DtoToPartConverter(this::getCarById));
+        modelMapper.addConverter(new DtoToPartConverter(this::getCarsByIds));
         modelMapper.addConverter(new DtoToCarConverter(this::getManufacturerById, this::getBrandById, this::getPartsByIds));
         return modelMapper;
-    }
-
-    private Car getCarById(UUID id) {
-        return carRepository.findById(id)
-                .orElseThrow(() -> new CarNotFoundException(id.toString()));
     }
 
     private Brand getBrandById(UUID id) {
@@ -61,6 +54,10 @@ public class ModelMapperConfig {
     private Manufacturer getManufacturerById(UUID id) {
         return manufacturerRepository.findById(id)
                 .orElseThrow(() -> new ManufacturerNotFoundException(id.toString()));
+    }
+
+    private Set<Car> getCarsByIds(Set<UUID> ids) {
+        return new HashSet<>(carRepository.findAllById(ids));
     }
 
     private Set<Part> getPartsByIds(Set<UUID> ids) {

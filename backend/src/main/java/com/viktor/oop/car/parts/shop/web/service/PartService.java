@@ -6,7 +6,9 @@ import com.viktor.oop.car.parts.shop.model.dto.update.PartUpdateDto;
 import com.viktor.oop.car.parts.shop.model.entity.Part;
 import com.viktor.oop.car.parts.shop.model.event.AddCarToPartEvent;
 import com.viktor.oop.car.parts.shop.model.event.CarDeletionEvent;
+import com.viktor.oop.car.parts.shop.model.event.PartCreationEvent;
 import com.viktor.oop.car.parts.shop.repository.PartRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
@@ -47,14 +49,16 @@ public class PartService {
         partRepository.deleteById(id);
     }
 
+    @Transactional
     public PartDto addPart(PartDto partDto) {
-        return modelMapper.map(partRepository.save(modelMapper.map(partDto, Part.class)), PartDto.class);
+        var part = modelMapper.map(partDto, Part.class);
+        eventPublisher.publishEvent(new PartCreationEvent(part));
+        return modelMapper.map(partRepository.save(part), PartDto.class);
     }
 
     public void addCarToPart(UUID id, UUID carId) {
         var part = getPartById(id);
-        var future = CompletableFuture.runAsync(() -> eventPublisher.publishEvent(new AddCarToPartEvent(part, carId)));
-        future.join();
+        eventPublisher.publishEvent(new AddCarToPartEvent(part, carId));
         partRepository.save(part);
     }
 
