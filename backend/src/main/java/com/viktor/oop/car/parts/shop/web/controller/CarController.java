@@ -38,9 +38,4 @@ public class CarController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PutMapping("/id/{id}/manufacturer")
-    public ResponseEntity<Void> updateCarManufacturer(@PathVariable UUID id, @RequestParam UUID manufacturerId) {
-        carService.updateCarManufacturer(id, manufacturerId);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
 }

@@ -1,23 +1,35 @@
 package com.viktor.oop.car.parts.shop.config.mapper;
 
+import com.viktor.oop.car.parts.shop.config.exception.BrandNotFoundException;
+import com.viktor.oop.car.parts.shop.config.exception.CarNotFoundException;
+import com.viktor.oop.car.parts.shop.config.exception.ManufacturerNotFoundException;
 import com.viktor.oop.car.parts.shop.config.mapper.converter.dto.DtoToCarConverter;
 import com.viktor.oop.car.parts.shop.config.mapper.converter.dto.DtoToPartConverter;
 import com.viktor.oop.car.parts.shop.config.mapper.converter.entity.BrandToDtoConverter;
 import com.viktor.oop.car.parts.shop.config.mapper.converter.entity.CarToDtoConverter;
 import com.viktor.oop.car.parts.shop.config.mapper.converter.entity.ManufacturerToDtoConverter;
 import com.viktor.oop.car.parts.shop.config.mapper.converter.entity.PartToDtoConverter;
-import com.viktor.oop.car.parts.shop.web.service.helper.IdBasedEntityRetriever;
+import com.viktor.oop.car.parts.shop.model.entity.Brand;
+import com.viktor.oop.car.parts.shop.model.entity.Car;
+import com.viktor.oop.car.parts.shop.model.entity.Manufacturer;
+import com.viktor.oop.car.parts.shop.repository.BrandRepository;
+import com.viktor.oop.car.parts.shop.repository.CarRepository;
+import com.viktor.oop.car.parts.shop.repository.ManufacturerRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.UUID;
+
 @Configuration
 @RequiredArgsConstructor
 public class ModelMapperConfig {
     private static final ModelMapper modelMapper = new ModelMapper();
+    private final BrandRepository brandRepository;
+    private final ManufacturerRepository manufacturerRepository;
+    private final CarRepository carRepository;
 
-    private final IdBasedEntityRetriever retriever;
     @Bean
     public ModelMapper modelMapper() {
         modelMapper.addConverter(new BrandToDtoConverter());
@@ -25,8 +37,23 @@ public class ModelMapperConfig {
         modelMapper.addConverter(new ManufacturerToDtoConverter());
         modelMapper.addConverter(new PartToDtoConverter());
 
-        modelMapper.addConverter(new DtoToPartConverter(retriever));
-        modelMapper.addConverter(new DtoToCarConverter(retriever));
+        modelMapper.addConverter(new DtoToPartConverter(this::getCarById));
+        modelMapper.addConverter(new DtoToCarConverter(this::getManufacturerById, this::getBrandById));
         return modelMapper;
+    }
+
+    private Car getCarById(UUID id) {
+        return carRepository.findById(id)
+                .orElseThrow(() -> new CarNotFoundException(id.toString()));
+    }
+
+    private Brand getBrandById(UUID id) {
+        return brandRepository.findById(id)
+                .orElseThrow(() -> new BrandNotFoundException(id.toString()));
+    }
+
+    private Manufacturer getManufacturerById(UUID id) {
+        return manufacturerRepository.findById(id)
+                .orElseThrow(() -> new ManufacturerNotFoundException(id.toString()));
     }
 }

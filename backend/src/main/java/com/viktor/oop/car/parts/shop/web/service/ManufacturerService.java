@@ -1,13 +1,14 @@
 package com.viktor.oop.car.parts.shop.web.service;
 
+import com.viktor.oop.car.parts.shop.config.exception.ManufacturerNotFoundException;
 import com.viktor.oop.car.parts.shop.model.dto.ManufacturerDto;
 import com.viktor.oop.car.parts.shop.model.dto.update.ManufacturerUpdateDto;
-import com.viktor.oop.car.parts.shop.model.entity.Car;
 import com.viktor.oop.car.parts.shop.model.entity.Manufacturer;
+import com.viktor.oop.car.parts.shop.model.event.CarCreationEvent;
 import com.viktor.oop.car.parts.shop.repository.ManufacturerRepository;
-import com.viktor.oop.car.parts.shop.web.service.helper.IdBasedEntityRetriever;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,6 @@ import static com.viktor.oop.car.parts.shop.web.service.helper.Utilities.updateE
 @RequiredArgsConstructor
 public class ManufacturerService {
     private final ManufacturerRepository manufacturerRepository;
-    private final IdBasedEntityRetriever retriever;
     private final ModelMapper modelMapper;
 
     public List<ManufacturerDto> getAllManufacturerDtos() {
@@ -29,7 +29,7 @@ public class ManufacturerService {
     }
 
     public ManufacturerDto getManufacturerDtoById(UUID id) {
-        return modelMapper.map(retriever.getManufacturerById(id), ManufacturerDto.class);
+        return modelMapper.map(getManufacturerById(id), ManufacturerDto.class);
     }
 
     public ManufacturerDto addManufacturer(ManufacturerDto dto) {
@@ -41,13 +41,20 @@ public class ManufacturerService {
     }
 
     public void updateManufacturer(UUID id, ManufacturerUpdateDto dto) {
-        var manufacturer = retriever.getManufacturerById(id);
+        var manufacturer = getManufacturerById(id);
         updateEntity(dto, manufacturer);
         manufacturerRepository.save(manufacturer);
     }
 
-    public void addCarToManufacturer(Car car, Manufacturer manufacturer) {
-        car.getManufacturer().add(car);
-        manufacturerRepository.save(car.getManufacturer());
+    @EventListener
+    public void onCarCreationEvent(CarCreationEvent event) {
+        var manufacturer = event.manufacturer();
+        manufacturer.add(event.car());
+        manufacturerRepository.save(manufacturer);
+    }
+
+    private Manufacturer getManufacturerById(UUID id) {
+        return manufacturerRepository.findById(id)
+                .orElseThrow(() -> new ManufacturerNotFoundException(id.toString()));
     }
 }

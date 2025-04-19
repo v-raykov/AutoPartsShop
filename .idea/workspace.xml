@@ -4,54 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="15193f86-c89f-4bea-86b4-ee130c37ca27" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/config/exception/BrandNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/config/exception/CarNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/config/exception/EntityUpdateException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/config/exception/ManufacturerNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/config/exception/PartNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/config/exception/handler/ErrorResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/config/exception/handler/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/config/mapper/converter/dto/DtoToCarConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/config/mapper/converter/dto/DtoToPartConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/model/dto/update/ManufacturerUpdateDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/model/dto/update/PartUpdateDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/web/controller/BrandController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/web/controller/CarController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/web/controller/ManufacturerController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/web/controller/PartController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/web/service/BrandService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/web/service/CarService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/web/service/ManufacturerService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/web/service/PartService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/web/service/helper/IdBasedEntityRetriever.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/web/service/helper/Utilities.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/test/java/com/viktor/oop/car/parts/shop/controller/BrandControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/test/java/com/viktor/oop/car/parts/shop/controller/CarControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/test/java/com/viktor/oop/car/parts/shop/controller/CleanupTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/test/java/com/viktor/oop/car/parts/shop/controller/ManufacturerControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/test/java/com/viktor/oop/car/parts/shop/controller/PartControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/test/java/com/viktor/oop/car/parts/shop/data/TestDataConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/test/java/com/viktor/oop/car/parts/shop/data/TestDataContext.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data_population_script/data_population_script.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data_population_script/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/mapper/ModelMapperConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/config/mapper/ModelMapperConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/mapper/converter/BrandToDtoConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/config/mapper/converter/entity/BrandToDtoConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/mapper/converter/CarToDtoConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/config/mapper/converter/entity/CarToDtoConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/mapper/converter/ManufacturerToDtoConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/config/mapper/converter/entity/ManufacturerToDtoConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/mapper/converter/PartToDtoConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/config/mapper/converter/entity/PartToDtoConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/model/dto/CarDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/model/dto/CarDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/model/dto/PartDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/model/dto/PartDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/model/entity/Brand.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/model/entity/Brand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/model/entity/Manufacturer.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/model/entity/Manufacturer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/model/entity/Part.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/viktor/oop/car/parts/shop/model/entity/Part.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-    </list>
+    <list default="true" id="15193f86-c89f-4bea-86b4-ee130c37ca27" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -78,32 +31,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.CarPartsShopApplication.executor": "Run",
-    "com.codeium.enabled": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/viktor/Projects/Additional/OOP_CarPartsShop/car.parts.shop",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.CarPartsShopApplication.executor&quot;: &quot;Run&quot;,
+    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/viktor/Projects/Additional/OOP_CarPartsShop/car.parts.shop&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.viktor.oop.car.parts.shop.config.exception" />
@@ -133,6 +86,7 @@
       <workItem from="1744784878195" duration="2712000" />
       <workItem from="1745043397350" duration="7080000" />
       <workItem from="1745050516695" duration="5516000" />
+      <workItem from="1745071547171" duration="9000" />
     </task>
     <servers />
   </component>

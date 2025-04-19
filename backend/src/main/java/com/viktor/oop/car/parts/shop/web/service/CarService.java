@@ -1,26 +1,27 @@
 package com.viktor.oop.car.parts.shop.web.service;
 
+import com.viktor.oop.car.parts.shop.config.exception.CarNotFoundException;
 import com.viktor.oop.car.parts.shop.model.dto.CarDto;
 import com.viktor.oop.car.parts.shop.model.entity.Car;
-import com.viktor.oop.car.parts.shop.repository.BrandRepository;
+import com.viktor.oop.car.parts.shop.model.event.AddCarToPartEvent;
+import com.viktor.oop.car.parts.shop.model.event.CarCreationEvent;
 import com.viktor.oop.car.parts.shop.repository.CarRepository;
-import com.viktor.oop.car.parts.shop.repository.ManufacturerRepository;
-import com.viktor.oop.car.parts.shop.web.service.helper.IdBasedEntityRetriever;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
 public class CarService {
     private final CarRepository carRepository;
-    private final BrandService brandService;
-    private final ManufacturerService manufacturerService;
-    private final IdBasedEntityRetriever retriever;
+    private final ApplicationEventPublisher eventPublisher;
     private final ModelMapper modelMapper;
 
     public List<CarDto> getAllCarDtos() {
@@ -30,14 +31,14 @@ public class CarService {
     }
 
     public CarDto getCarDtoById(UUID id) {
-        return modelMapper.map(retriever.getCarById(id), CarDto.class);
+        return modelMapper.map(getCarById(id), CarDto.class);
     }
 
     @Transactional
     public CarDto addCar(CarDto carDto) {
         var car = modelMapper.map(carDto, Car.class);
-        brandService.addCarToBrand(car, car.getBrand());
-        manufacturerService.addCarToManufacturer(car, car.getManufacturer());
+        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> eventPublisher.publishEvent(new CarCreationEvent(car, car.getBrand(), car.getManufacturer())));
+        future.join();
         return modelMapper.map(carRepository.save(car), CarDto.class);
     }
 
@@ -46,9 +47,14 @@ public class CarService {
         System.out.println(carRepository.existsById(id));
     }
 
-    public void updateCarManufacturer(UUID id, UUID manufacturer) {
-        var car = retriever.getCarById(id);
-        car.setManufacturer(retriever.getManufacturerById(manufacturer));
-        carRepository.save(car);
+    @EventListener
+    public void onAddCarToPartEvent(AddCarToPartEvent event) {
+        var car = getCarById(event.carId());
+        event.part().addCar(car);
+    }
+
+    private Car getCarById(UUID id) {
+        return carRepository.findById(id)
+                .orElseThrow(() -> new CarNotFoundException(id.toString()));
     }
 }
