@@ -1,4 +1,4 @@
-package com.viktor.oop.car.parts.shop.mapper.converter;
+package com.viktor.oop.car.parts.shop.config.mapper.converter.entity;
 
 import com.viktor.oop.car.parts.shop.model.dto.ManufacturerDto;
 import com.viktor.oop.car.parts.shop.model.entity.Car;
@@ -12,7 +12,8 @@ public class ManufacturerToDtoConverter implements Converter<Manufacturer, Manuf
     @Override
     public ManufacturerDto convert(MappingContext<Manufacturer, ManufacturerDto> mappingContext) {
         var source = mappingContext.getSource();
-        var carIds = source.getCars().stream()
+        var cars = source.getCars();
+        var carIds = cars == null ? null : cars.stream()
                 .map(Car::getId)
                 .collect(Collectors.toSet());
         return new ManufacturerDto(source.getId(), source.getName(), source.getAddress(), source.getPhoneNumber(), source.getEmail(), carIds);

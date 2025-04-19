@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -29,8 +29,20 @@ public class Part {
 
     private int priceSell;
 
-    private int stock;
+    private int quantity;
 
-    @ManyToMany
-    private List<Car> cars;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Car> cars;
+
+    public void changeQuantity(int quantity) {
+        this.quantity += quantity;
+    }
+
+    public void addCar(Car car) {
+        cars.add(car);
+    }
+
+    public void removeCar(Car car) {
+        cars.remove(car);
+    }
 }

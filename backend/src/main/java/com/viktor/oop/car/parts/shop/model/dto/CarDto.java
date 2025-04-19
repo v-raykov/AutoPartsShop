@@ -1,12 +1,7 @@
 package com.viktor.oop.car.parts.shop.model.dto;
 
-import com.viktor.oop.car.parts.shop.model.entity.Brand;
-import com.viktor.oop.car.parts.shop.model.entity.Manufacturer;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -16,7 +11,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class CarDto {
     private UUID id;
+    @NotNull(message = "Field 'manufacturerId' is required")
     private UUID manufacturerId;
+    @NotNull(message = "Field 'brandId' is required")
     private UUID brandId;
     private String model;
     private int year;

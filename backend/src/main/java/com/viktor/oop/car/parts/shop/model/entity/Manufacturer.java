@@ -27,6 +27,10 @@ public class Manufacturer {
 
     private String email;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Car> cars;
+
+    public void add(Car car) {
+        cars.add(car);
+    }
 }

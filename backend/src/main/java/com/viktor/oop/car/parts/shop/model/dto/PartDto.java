@@ -19,6 +19,6 @@ public class PartDto {
     private PartCategory category;
     private int priceBuy;
     private int priceSell;
-    private int stock;
+    private int quantity;
     private Set<UUID> carIds;
 }

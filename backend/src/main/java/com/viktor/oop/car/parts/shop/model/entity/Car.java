@@ -18,10 +18,10 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private Manufacturer manufacturer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private Brand brand;
 
     private String model;
