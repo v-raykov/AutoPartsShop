@@ -4,11 +4,14 @@ import com.viktor.oop.car.parts.shop.config.exception.ManufacturerNotFoundExcept
 import com.viktor.oop.car.parts.shop.model.dto.ManufacturerDto;
 import com.viktor.oop.car.parts.shop.model.dto.update.ManufacturerUpdateDto;
 import com.viktor.oop.car.parts.shop.model.entity.Manufacturer;
-import com.viktor.oop.car.parts.shop.model.event.CarCreationEvent;
-import com.viktor.oop.car.parts.shop.model.event.CarDeletionEvent;
+import com.viktor.oop.car.parts.shop.model.event.creation.CarCreationEvent;
+import com.viktor.oop.car.parts.shop.model.event.deletion.CarDeletionEvent;
+import com.viktor.oop.car.parts.shop.model.event.deletion.ManufacturerDeletionEvent;
 import com.viktor.oop.car.parts.shop.repository.ManufacturerRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionPhase;
@@ -23,6 +26,7 @@ import static com.viktor.oop.car.parts.shop.web.service.helper.Utilities.updateE
 @RequiredArgsConstructor
 public class ManufacturerService {
     private final ManufacturerRepository manufacturerRepository;
+    private final ApplicationEventPublisher eventPublisher;
     private final ModelMapper modelMapper;
 
     public List<ManufacturerDto> getAllManufacturerDtos() {
@@ -39,14 +43,17 @@ public class ManufacturerService {
         return modelMapper.map(manufacturerRepository.save(modelMapper.map(dto, Manufacturer.class)), ManufacturerDto.class);
     }
 
-    public void deleteManufacturerById(UUID id) {
-        manufacturerRepository.deleteById(id);
-    }
-
     public void updateManufacturer(UUID id, ManufacturerUpdateDto dto) {
         var manufacturer = getManufacturerById(id);
         updateEntity(dto, manufacturer);
         manufacturerRepository.save(manufacturer);
+    }
+
+    @Transactional
+    public void deleteManufacturerById(UUID id) {
+        var manufacturer = getManufacturerById(id);
+        eventPublisher.publishEvent(new ManufacturerDeletionEvent(manufacturer));
+        manufacturerRepository.delete(manufacturer);
     }
 
     @EventListener

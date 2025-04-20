@@ -3,11 +3,14 @@ package com.viktor.oop.car.parts.shop.web.service;
 import com.viktor.oop.car.parts.shop.config.exception.BrandNotFoundException;
 import com.viktor.oop.car.parts.shop.model.dto.BrandDto;
 import com.viktor.oop.car.parts.shop.model.entity.Brand;
-import com.viktor.oop.car.parts.shop.model.event.CarCreationEvent;
-import com.viktor.oop.car.parts.shop.model.event.CarDeletionEvent;
+import com.viktor.oop.car.parts.shop.model.event.creation.CarCreationEvent;
+import com.viktor.oop.car.parts.shop.model.event.deletion.BrandDeletionEvent;
+import com.viktor.oop.car.parts.shop.model.event.deletion.CarDeletionEvent;
 import com.viktor.oop.car.parts.shop.repository.BrandRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionPhase;
@@ -20,6 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BrandService {
     private final BrandRepository brandRepository;
+    private final ApplicationEventPublisher eventPublisher;
     private final ModelMapper modelMapper;
 
     public List<BrandDto> getAllBrandDtos() {
@@ -36,8 +40,11 @@ public class BrandService {
         return modelMapper.map(brandRepository.save(modelMapper.map(brandDto, Brand.class)), BrandDto.class);
     }
 
+    @Transactional
     public void deleteBrandById(UUID id) {
-        brandRepository.deleteById(id);
+        var brand = getBrandById(id);
+        eventPublisher.publishEvent(new BrandDeletionEvent(brand));
+        brandRepository.delete(brand);
     }
 
     @EventListener

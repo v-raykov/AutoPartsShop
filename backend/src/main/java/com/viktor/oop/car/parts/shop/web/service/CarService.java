@@ -3,9 +3,14 @@ package com.viktor.oop.car.parts.shop.web.service;
 import com.viktor.oop.car.parts.shop.config.exception.CarNotFoundException;
 import com.viktor.oop.car.parts.shop.model.dto.CarDto;
 import com.viktor.oop.car.parts.shop.model.entity.Car;
-import com.viktor.oop.car.parts.shop.model.event.*;
+import com.viktor.oop.car.parts.shop.model.event.creation.CarCreationEvent;
+import com.viktor.oop.car.parts.shop.model.event.creation.PartCreationEvent;
+import com.viktor.oop.car.parts.shop.model.event.deletion.BrandDeletionEvent;
+import com.viktor.oop.car.parts.shop.model.event.deletion.CarDeletionEvent;
+import com.viktor.oop.car.parts.shop.model.event.deletion.ManufacturerDeletionEvent;
+import com.viktor.oop.car.parts.shop.model.event.update.PartCarAdditionEvent;
+import com.viktor.oop.car.parts.shop.model.event.update.PartCarDeletionEvent;
 import com.viktor.oop.car.parts.shop.repository.CarRepository;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -23,7 +28,6 @@ import java.util.UUID;
 public class CarService {
     private final CarRepository carRepository;
     private final ApplicationEventPublisher eventPublisher;
-    private final EntityManager entityManager;
     private final ModelMapper modelMapper;
 
     public List<CarDto> getAllCarDtos() {
@@ -74,6 +78,20 @@ public class CarService {
         part.removeCar(car);
         car.removePart(part);
         carRepository.save(car);
+    }
+
+    @Transactional
+    @EventListener
+    public void onBrandDeletionEvent(BrandDeletionEvent event) {
+        var cars = carRepository.findAllByBrand(event.brand());
+        cars.forEach(car -> deleteCarById(car.getId()));
+    }
+
+    @Transactional
+    @EventListener
+    public void onManufacturerDeletionEvent(ManufacturerDeletionEvent event) {
+        var cars = carRepository.findAllByManufacturer(event.manufacturer());
+        cars.forEach(car -> deleteCarById(car.getId()));
     }
 
     private Car getCarById(UUID id) {

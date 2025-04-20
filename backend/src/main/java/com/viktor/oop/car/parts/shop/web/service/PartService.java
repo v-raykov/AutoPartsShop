@@ -4,12 +4,11 @@ import com.viktor.oop.car.parts.shop.config.exception.PartNotFoundException;
 import com.viktor.oop.car.parts.shop.model.dto.PartDto;
 import com.viktor.oop.car.parts.shop.model.dto.update.PartUpdateDto;
 import com.viktor.oop.car.parts.shop.model.entity.Part;
-import com.viktor.oop.car.parts.shop.model.event.PartCarAdditionEvent;
-import com.viktor.oop.car.parts.shop.model.event.CarDeletionEvent;
-import com.viktor.oop.car.parts.shop.model.event.PartCarDeletionEvent;
-import com.viktor.oop.car.parts.shop.model.event.PartCreationEvent;
+import com.viktor.oop.car.parts.shop.model.event.update.PartCarAdditionEvent;
+import com.viktor.oop.car.parts.shop.model.event.deletion.CarDeletionEvent;
+import com.viktor.oop.car.parts.shop.model.event.update.PartCarDeletionEvent;
+import com.viktor.oop.car.parts.shop.model.event.creation.PartCreationEvent;
 import com.viktor.oop.car.parts.shop.repository.PartRepository;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -28,7 +27,6 @@ public class PartService {
     private final PartRepository partRepository;
     private final ApplicationEventPublisher eventPublisher;
     private final ModelMapper modelMapper;
-    private final EntityManager entityManager;
 
     public List<PartDto> getAllPartDtos() {
         return partRepository.findAll().stream()

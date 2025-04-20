@@ -12,6 +12,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
@@ -47,6 +48,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(new ErrorResponse(status, ex.getMessage()));
     }
 
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+        var status = HttpStatus.BAD_REQUEST;
+        return ResponseEntity.status(status).body(new ErrorResponse(status, ex.getMessage()));
+    }
+
     // Custom exceptions
 
     @ExceptionHandler(CarNotFoundException.class)
@@ -55,19 +62,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(new ErrorResponse(status, ex.getMessage()));
     }
     @ExceptionHandler(PartNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handlePartNotFoundException(CarNotFoundException ex) {
+    public ResponseEntity<ErrorResponse> handlePartNotFoundException(PartNotFoundException ex) {
         var status = HttpStatus.NOT_FOUND;
         return ResponseEntity.status(status).body(new ErrorResponse(status, ex.getMessage()));
     }
 
     @ExceptionHandler(ManufacturerNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleManufacturerNotFoundException(CarNotFoundException ex) {
+    public ResponseEntity<ErrorResponse> handleManufacturerNotFoundException(ManufacturerNotFoundException ex) {
         var status = HttpStatus.NOT_FOUND;
         return ResponseEntity.status(status).body(new ErrorResponse(status, ex.getMessage()));
     }
 
     @ExceptionHandler(BrandNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(CarNotFoundException ex) {
+    public ResponseEntity<ErrorResponse> handleBrandNotFoundException(BrandNotFoundException ex) {
         var status = HttpStatus.NOT_FOUND;
         return ResponseEntity.status(status).body(new ErrorResponse(status, ex.getMessage()));
     }

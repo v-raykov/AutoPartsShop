@@ -1,4 +1,4 @@
-package com.viktor.oop.car.parts.shop.model.event;
+package com.viktor.oop.car.parts.shop.model.event.creation;
 
 import com.viktor.oop.car.parts.shop.model.entity.Brand;
 import com.viktor.oop.car.parts.shop.model.entity.Car;
