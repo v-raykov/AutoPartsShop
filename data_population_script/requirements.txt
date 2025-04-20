@@ -1,4 +1,5 @@
-# run `pip install -r requirements.txt` to install the dependancies of this script
+# run python3 -m venv .venv to create python virtual environment to execute the script
+# run `pip install -r requirements.txt` to install the dependancies
 
 certifi==2025.1.31
 charset-normalizer==3.4.1

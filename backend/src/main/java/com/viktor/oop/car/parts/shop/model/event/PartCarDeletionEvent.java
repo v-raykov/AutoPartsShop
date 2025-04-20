@@ -4,5 +4,5 @@ import com.viktor.oop.car.parts.shop.model.entity.Part;
 
 import java.util.UUID;
 
-public record AddCarToPartEvent(Part part, UUID carId) {
+public record PartCarDeletionEvent(Part part, UUID carId) {
 }

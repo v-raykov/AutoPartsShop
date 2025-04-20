@@ -35,4 +35,8 @@ public class Car {
     public void addPart(Part part) {
         parts.add(part);
     }
+
+    public void removePart(Part part) {
+        parts.remove(part);
+    }
 }

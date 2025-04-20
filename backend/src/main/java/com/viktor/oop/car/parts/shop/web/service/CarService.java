@@ -3,10 +3,7 @@ package com.viktor.oop.car.parts.shop.web.service;
 import com.viktor.oop.car.parts.shop.config.exception.CarNotFoundException;
 import com.viktor.oop.car.parts.shop.model.dto.CarDto;
 import com.viktor.oop.car.parts.shop.model.entity.Car;
-import com.viktor.oop.car.parts.shop.model.event.AddCarToPartEvent;
-import com.viktor.oop.car.parts.shop.model.event.CarCreationEvent;
-import com.viktor.oop.car.parts.shop.model.event.CarDeletionEvent;
-import com.viktor.oop.car.parts.shop.model.event.PartCreationEvent;
+import com.viktor.oop.car.parts.shop.model.event.*;
 import com.viktor.oop.car.parts.shop.repository.CarRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -15,11 +12,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -62,11 +59,20 @@ public class CarService {
     }
 
     @EventListener
-    public void onAddCarToPartEvent(AddCarToPartEvent event) {
+    public void onAddCarToPartEvent(PartCarAdditionEvent event) {
         var car = getCarById(event.carId());
         var part = event.part();
         part.addCar(car);
         car.addPart(part);
+        carRepository.save(car);
+    }
+
+    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    public void onPartCarDeletionEvent(PartCarDeletionEvent event) {
+        var part = event.part();
+        var car = getCarById(event.carId());
+        part.removeCar(car);
+        car.removePart(part);
         carRepository.save(car);
     }
 
