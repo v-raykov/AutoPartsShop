@@ -40,7 +40,6 @@ public class CarService {
         return modelMapper.map(getCarById(id), CarDto.class);
     }
 
-    @Transactional
     public CarDto addCar(CarDto carDto) {
         var car = modelMapper.map(carDto, Car.class);
         eventPublisher.publishEvent(new CarCreationEvent(car, car.getBrand(), car.getManufacturer()));
@@ -54,7 +53,7 @@ public class CarService {
         carRepository.delete(car);
     }
 
-    @TransactionalEventListener
+    @EventListener
     public void onPartCreationEvent(PartCreationEvent event) {
         var part = event.part();
         var cars = part.getCars();

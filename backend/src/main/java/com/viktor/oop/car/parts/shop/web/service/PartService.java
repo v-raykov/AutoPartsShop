@@ -48,7 +48,6 @@ public class PartService {
         partRepository.deleteById(id);
     }
 
-    @Transactional
     public PartDto addPart(PartDto partDto) {
         var part = modelMapper.map(partDto, Part.class);
         eventPublisher.publishEvent(new PartCreationEvent(part));
