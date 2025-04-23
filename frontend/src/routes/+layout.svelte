@@ -1,15 +1,22 @@
 <script>
-    import './style.css'
+  import './style.css';
 </script>
 
-<header>Auto Parts Shop</header>
+<header>
+  <span>Auto Parts Shop</span>
+  <div class="user-controls">
+    <!-- Would add user controls/avatar here -->
+  </div>
+</header>
+
 <div class="container">
-    <div class="sidebar">
-        <a href="/dashboard" class="nav-item">🏠 Dashboard</a>
-        <a href="/core/parts" class="nav-item">🔩 Parts</a>
-        <a href="/core/cars" class="nav-item">🚗 Cars</a>
-    </div>
-    <div class="main">
-        <slot />
-    </div>
+  <nav class="sidebar">
+    <a href="/dashboard" class="nav-item">Dashboard</a>
+    <a href="/core/parts" class="nav-item">Parts Inventory</a>
+    <a href="/core/cars" class="nav-item">Vehicles</a>
+  </nav>
+
+  <main class="main">
+    <slot />
+  </main>
 </div>

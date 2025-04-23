@@ -1,5 +1,5 @@
 <script>
-    import './style.css'
+    import './style.css';
     let stats = {
         parts: 120,
         cars: 45,
@@ -8,10 +8,26 @@
     };
 </script>
 
-<h2>Dashboard</h2>
-<div class="grid">
-    <div class="card">🔩 Parts: {stats.parts}</div>
-    <div class="card">🚗 Cars: {stats.cars}</div>
-    <div class="card">🏷️ Brands: {stats.brands}</div>
-    <div class="card">🏭 Manufacturers: {stats.manufacturers}</div>
+<h2>Dashboard Overview</h2>
+<div class="card-grid">
+    <div class="stat-card">
+        <h3>Parts</h3>
+        <p class="stat-value">{stats.parts}</p>
+        <p class="stat-label">Total Inventory</p>
+    </div>
+    <div class="stat-card">
+        <h3>Vehicles</h3>
+        <p class="stat-value">{stats.cars}</p>
+        <p class="stat-label">In Catalog</p>
+    </div>
+    <div class="stat-card">
+        <h3>Brands</h3>
+        <p class="stat-value">{stats.brands}</p>
+        <p class="stat-label">Supported</p>
+    </div>
+    <div class="stat-card">
+        <h3>Manufacturers</h3>
+        <p class="stat-value">{stats.manufacturers}</p>
+        <p class="stat-label">Partnered</p>
+    </div>
 </div>

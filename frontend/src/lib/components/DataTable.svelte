@@ -9,6 +9,7 @@
 </script>
 
 <h2>{title}</h2>
+
 {#if onAdd}
     <button class="add-btn" on:click={onAdd}>Add</button>
 {/if}
@@ -16,7 +17,7 @@
 <table>
     <thead>
     <tr>
-        {#each columns as {name}}
+        {#each columns as { name }}
             <th>{name}</th>
         {/each}
         {#if onEdit || onDelete}
@@ -27,12 +28,15 @@
     <tbody>
     {#each data as item}
         <tr>
-            {#each columns as {key, clickable}}
+            {#each columns as { key, clickable }}
                 <td>
                     {#if clickable && onRowClick}
                         <button
                                 class="component-name"
-                                on:click={() => onRowClick(item[key])}
+                                on:click={(e) => {
+                                    e.stopPropagation();
+                                    onRowClick(item);
+                                }}
                         >
                             {item[key]}
                         </button>
