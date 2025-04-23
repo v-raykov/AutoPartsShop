@@ -1,57 +1,13 @@
-<style>
-    .container {
-        display: flex;
-        height: 100vh;
-    }
-    .sidebar {
-        width: 250px;
-        background: linear-gradient(145deg, #6a7bff, #4c6ef5);
-        color: white;
-        padding: 2rem;
-        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
-    }
-    .nav-item {
-        display: block;
-        margin: 1rem 0;
-        font-size: 1.2rem;
-        font-weight: bold;
-        cursor: pointer;
-        color: white;
-        background: none;
-        border: none;
-        text-align: left;
-        padding: 0;
-        transition: color 0.3s ease;
-        text-decoration: none;
-    }
-
-    .nav-item:hover {
-        color: #ffeb3b;
-    }
-
-    .main {
-        flex: 1;
-        background: #fff;
-        padding: 2rem;
-        box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.05);
-        overflow-y: auto;
-    }
-    header {
-        background: #4c6ef5;
-        color: white;
-        text-align: center;
-        padding: 1.5rem;
-        font-size: 2rem;
-        font-weight: bold;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-</style>
+<script>
+    import './style.css'
+</script>
 
 <header>Auto Parts Shop</header>
 <div class="container">
     <div class="sidebar">
         <a href="/dashboard" class="nav-item">🏠 Dashboard</a>
-        <a href="/parts" class="nav-item">🔩 Parts</a>
+        <a href="/core/parts" class="nav-item">🔩 Parts</a>
+        <a href="/core/cars" class="nav-item">🚗 Cars</a>
     </div>
     <div class="main">
         <slot />
