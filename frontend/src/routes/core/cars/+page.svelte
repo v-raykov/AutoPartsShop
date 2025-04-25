@@ -1,6 +1,7 @@
 <script>
     import DataTable from '$lib/components/DataTable.svelte';
     import '../style.css';
+    import {goto} from "$app/navigation";
 
     let cars = [
         { id: 1, brand: 'Toyota', model: 'Corolla', manufacturer: 'Toyota', year: 2020 },
@@ -13,8 +14,8 @@
         { name: 'Year', key: 'year' }
     ];
 
-    function handleRowClick(value) {
-        alert(value)
+    function handleRowClick(part) {
+        goto(`/core/cars/${part.id}`);
     }
 
     function handleEdit(car) {

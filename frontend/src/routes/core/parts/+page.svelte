@@ -1,4 +1,3 @@
-<!-- src/routes/part/+page.svelte -->
 <script>
     import DataTable from '$lib/components/DataTable.svelte';
     import { goto } from "$app/navigation";

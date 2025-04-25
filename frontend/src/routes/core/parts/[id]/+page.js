@@ -1,4 +1,3 @@
-// src/routes/core/parts/[id]/+page.js
 import { error } from '@sveltejs/kit';
 
 const parts = [
