@@ -1,11 +1,13 @@
 <script>
     import DataTable from '$lib/components/DataTable.svelte';
     import { goto } from "$app/navigation";
+    import {onMount} from "svelte";
+    import {fetchAllManufacturers} from "$lib/api.js";
 
-    let manufacturers = [
-        { id: 1, name: 'Krasimir', address: '123 Main St, Sofia', phoneNumber: '123-456-7890', email: 'dimitur@example.com', cars: ['Toyota', 'Honda', 'Ford'] },
-        { id: 2, name: 'Jelezov', address: '456 Elm St, Plovdiv', phoneNumber: '987-654-3210', email: 'domozetov@example.com', cars: ['Toyota', 'Nissan'] }
-    ];
+    let manufacturers = [];
+    onMount(async () => {
+        manufacturers = await fetchAllManufacturers();
+    })
 
     const columns = [
         { name: 'Name', key: 'name', clickable: true },
@@ -26,8 +28,8 @@
         alert('Delete functionality coming soon!');
     }
 
-    function addPart() {
-        alert('Add part functionality coming soon!');
+    function addManufacturer() {
+        alert('Add Manufacturer functionality coming soon!');
     }
 </script>
 
@@ -36,7 +38,7 @@
         data={manufacturers}
         columns={columns}
         onRowClick={handleRowClick}
-        onAdd={addPart}
+        onAdd={addManufacturer}
         onEdit={handleEdit}
         onDelete={handleDelete}
 />

@@ -2,20 +2,22 @@
     import DataTable from '$lib/components/DataTable.svelte';
     import '../style.css';
     import {goto} from "$app/navigation";
+    import {fetchAllCars} from "$lib/api.js";
+    import {onMount} from "svelte";
 
-    let cars = [
-        { id: 1, brand: 'Toyota', model: 'Corolla', manufacturer: 'Toyota', year: 2020 },
-    ];
-
+    let cars = [];
+    onMount(async () => {
+        cars = await fetchAllCars();
+    })
     const columns = [
         { name: 'Model', key: 'model', clickable: true },
-        { name: 'Brand', key: 'brand', clickable: true },
-        { name: 'Manufacturer', key: 'manufacturer', clickable: true },
+        { name: 'Brand', key: 'brandId', clickable: true },
+        { name: 'Manufacturer', key: 'manufacturerId', clickable: true },
         { name: 'Year', key: 'year' }
     ];
 
-    function handleRowClick(part) {
-        goto(`/core/cars/${part.id}`);
+    function handleRowClick(car) {
+        goto(`/core/cars/${car.id}`);
     }
 
     function handleEdit(car) {

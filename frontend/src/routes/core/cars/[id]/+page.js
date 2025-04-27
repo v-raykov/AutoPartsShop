@@ -1,19 +1,15 @@
 import { error } from '@sveltejs/kit';
+import {fetchCarById} from "$lib/api.js";
 
-let cars = [
-    { id: 1, brand: 'Toyota', model: 'Corolla', manufacturer: 'Toyota', year: 2020, parts: ['Brake Pad', 'Oil Filter'] },
-];
-
-export function load({ params }) {
-    const id = parseInt(params.id);
-    const car = cars.find(p => p.id === id);
+export async function load({params}) {
+    const id = params.id;
+    const car = await fetchCarById(id);
 
     if (!car) {
-        throw error(404, 'Part not found');
+        throw error(404, 'Car not found');
     }
 
     return {
         car
     };
 }
-

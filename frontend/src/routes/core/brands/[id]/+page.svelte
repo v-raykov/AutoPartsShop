@@ -7,7 +7,7 @@
 <DetailView
         item={brand}
         fields={[
-        {label: 'Name', value: `$${brand?.priceBuy}`},
-        {label: 'Cars', value: brand?.cars?.join(', ')}
+        {label: 'Name', value: `${brand?.name}`},
+        {label: 'Cars', value: brand?.carIds?.join(', ')}
     ]}
 />

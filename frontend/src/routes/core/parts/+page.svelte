@@ -1,17 +1,19 @@
 <script>
     import DataTable from '$lib/components/DataTable.svelte';
-    import { goto } from "$app/navigation";
+    import {goto} from "$app/navigation";
+    import {fetchAllParts} from "$lib/api.js";
+    import {onMount} from "svelte";
 
-    let parts = [
-        { id: 1, name: 'Brake Pad', priceBuy: 20, priceSell: 35, quantity: 10, compatibleCars: ['Toyota', 'Honda', 'Ford'] },
-        { id: 2, name: 'Oil Filter', priceBuy: 5, priceSell: 10, quantity: 30, compatibleCars: ['Toyota', 'Nissan'] }
-    ];
+    let parts = [];
+    onMount(async () => {
+        parts = await fetchAllParts();
+    })
 
     const columns = [
-        { name: 'Name', key: 'name', clickable: true },
-        { name: 'Price Buy', key: 'priceBuy' },
-        { name: 'Price Sell', key: 'priceSell' },
-        { name: 'Quantity', key: 'quantity' }
+        {name: 'Name', key: 'name', clickable: true},
+        {name: 'Price Buy', key: 'priceBuy'},
+        {name: 'Price Sell', key: 'priceSell'},
+        {name: 'Quantity', key: 'quantity'}
     ];
 
     function handleRowClick(part) {

@@ -8,9 +8,9 @@
         item={car}
         titleProp="model"
         fields={[
-        {label: 'Brand', value: car?.brand},
-        {label: 'Manufacturer', value: car?.manufacturer},
+        {label: 'Brand', value: car?.brandId},
+        {label: 'Manufacturer', value: car?.manufacturerId},
         {label: 'Year', value: car?.year},
-        {label: 'Parts', value: car?.parts?.join(', ')}
+        {label: 'Parts', value: car?.partIds?.join(', ')}
     ]}
 />

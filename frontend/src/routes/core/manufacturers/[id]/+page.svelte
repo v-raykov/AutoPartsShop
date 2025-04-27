@@ -11,6 +11,6 @@
         {label: 'Address', value: `${manufacturer?.address}`},
         {label: 'Phone Number', value: `${manufacturer?.phoneNumber}`},
         {label: 'Email', value: `${manufacturer?.email}`},
-        {label: 'Cars', value: manufacturer?.cars?.join(', ')}
+        {label: 'Cars', value: manufacturer?.carIds?.join(', ')}
     ]}
 />
