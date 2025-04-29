@@ -29,6 +29,11 @@ export async function fetchCarById(id){
     return await res.data;
 }
 
+export async function fetchCarsByBrandId(id){
+    const res = await api.get(`${API_URL}/car/brand/${id}`)
+    return await res.data;
+}
+
 export async function fetchAllBrands(){
     const res = await api.get(`${API_URL}/brand`)
     return await res.data;
