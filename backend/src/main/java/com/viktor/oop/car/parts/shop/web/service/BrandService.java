@@ -3,7 +3,6 @@ package com.viktor.oop.car.parts.shop.web.service;
 import com.viktor.oop.car.parts.shop.config.exception.BrandNotFoundException;
 import com.viktor.oop.car.parts.shop.model.dto.BrandDto;
 import com.viktor.oop.car.parts.shop.model.entity.Brand;
-import com.viktor.oop.car.parts.shop.model.event.creation.CarCreationEvent;
 import com.viktor.oop.car.parts.shop.model.event.deletion.BrandDeletionEvent;
 import com.viktor.oop.car.parts.shop.model.event.deletion.CarDeletionEvent;
 import com.viktor.oop.car.parts.shop.repository.BrandRepository;
@@ -11,7 +10,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -45,13 +43,6 @@ public class BrandService {
         var brand = getBrandById(id);
         eventPublisher.publishEvent(new BrandDeletionEvent(brand));
         brandRepository.delete(brand);
-    }
-
-    @EventListener
-    public void onCarCreationEvent(CarCreationEvent event) {
-        var brand = event.brand();
-        brand.addCar(event.car());
-        brandRepository.save(brand);
     }
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)

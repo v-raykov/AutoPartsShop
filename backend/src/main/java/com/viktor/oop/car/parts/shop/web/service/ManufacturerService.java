@@ -4,7 +4,6 @@ import com.viktor.oop.car.parts.shop.config.exception.ManufacturerNotFoundExcept
 import com.viktor.oop.car.parts.shop.model.dto.ManufacturerDto;
 import com.viktor.oop.car.parts.shop.model.dto.update.ManufacturerUpdateDto;
 import com.viktor.oop.car.parts.shop.model.entity.Manufacturer;
-import com.viktor.oop.car.parts.shop.model.event.creation.CarCreationEvent;
 import com.viktor.oop.car.parts.shop.model.event.deletion.CarDeletionEvent;
 import com.viktor.oop.car.parts.shop.model.event.deletion.ManufacturerDeletionEvent;
 import com.viktor.oop.car.parts.shop.repository.ManufacturerRepository;
@@ -12,7 +11,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -56,13 +54,6 @@ public class ManufacturerService {
         manufacturerRepository.delete(manufacturer);
     }
 
-    @EventListener
-    public void onCarCreationEvent(CarCreationEvent event) {
-        var manufacturer = event.manufacturer();
-        manufacturer.addCar(event.car());
-        manufacturerRepository.save(manufacturer);
-    }
-
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void onCarDeletionEvent(CarDeletionEvent event) {
         var car = event.car();
@@ -71,7 +62,6 @@ public class ManufacturerService {
             manufacturerRepository.save(manufacturer);
         });
     }
-
 
     private Manufacturer getManufacturerById(UUID id) {
         return manufacturerRepository.findById(id)
