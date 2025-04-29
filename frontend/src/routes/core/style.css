@@ -44,7 +44,7 @@ tr:hover {
 }
 
 /* Component name button (text link style) */
-.component-name {
+button.component-name {
     font-size: 1rem;
     color: black;
     background-color: transparent;
@@ -52,12 +52,11 @@ tr:hover {
     cursor: pointer;
     padding: 0;
     text-decoration: none;
-    transition: color 0.3s ease, transform 0.2s ease;
+    transition: transform 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.component-name:hover {
-    color: white;
-    transform: translateY(-2px);
+button.component-name:hover {
+    transform: translateY(-4px) scale(1.05);
 }
 
 /* Add Car button styling */

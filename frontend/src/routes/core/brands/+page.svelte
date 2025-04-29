@@ -35,7 +35,7 @@
         title="Brands List"
         data={brands}
         columns={columns}
-        onRowClick={handleRowClick}
+        onCellClick={handleRowClick}
         onAdd={addPart}
         onEdit={handleEdit}
         onDelete={handleDelete}

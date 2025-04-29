@@ -2,22 +2,41 @@
     import DataTable from '$lib/components/DataTable.svelte';
     import '../style.css';
     import {goto} from "$app/navigation";
-    import {fetchAllCars} from "$lib/api.js";
     import {onMount} from "svelte";
+    import {fetchAllCars, fetchBrandById, fetchManufacturerById} from "$lib/api.js";
 
     let cars = [];
+
     onMount(async () => {
-        cars = await fetchAllCars();
-    })
+        const rawCars = await fetchAllCars();
+
+        cars = await Promise.all(rawCars.map(async (car) => {
+            const [brand, manufacturer] = await Promise.all([
+                fetchBrandById(car.brandId),
+                fetchManufacturerById(car.manufacturerId)
+            ]);
+
+            return {
+                ...car,
+                brandName: brand.name,
+                manufacturerName: manufacturer.name
+            };
+        }));
+    });
+
+
     const columns = [
-        { name: 'Model', key: 'model', clickable: true },
-        { name: 'Brand', key: 'brandId', clickable: true },
-        { name: 'Manufacturer', key: 'manufacturerId', clickable: true },
-        { name: 'Year', key: 'year' }
+        { name: 'Model', displayKey: 'model', valueKey: 'id', clickable: true, linkType: 'cars' },
+        { name: 'Brand', displayKey: 'brandName', valueKey: 'brandId', clickable: true, linkType: 'brands' },
+        { name: 'Manufacturer', displayKey: 'manufacturerName', valueKey: 'manufacturerId', clickable: true, linkType: 'manufacturers' },
+        { name: 'Year', displayKey: 'year' }
     ];
 
-    function handleRowClick(car) {
-        goto(`/core/cars/${car.id}`);
+    function handleCellClick(car, column) {
+        if (column.linkType) {
+            const id = car[column.valueKey];
+            goto(`/core/${column.linkType}/${id}`);
+        }
     }
 
     function handleEdit(car) {
@@ -31,14 +50,7 @@
     }
 
     function addCar() {
-        const newId = Math.max(...cars.map(c => c.id), 0) + 1;
-        cars = [...cars, {
-            id: newId,
-            brand: 'New Brand',
-            model: 'New Model',
-            manufacturer: 'New Manufacturer',
-            year: new Date().getFullYear()
-        }];
+        alert(`Add car functionality coming soon!`);
     }
 </script>
 
@@ -46,7 +58,7 @@
         title="Cars List"
         data={cars}
         columns={columns}
-        onRowClick={handleRowClick}
+        onCellClick={handleCellClick}
         onAdd={addCar}
         onEdit={handleEdit}
         onDelete={handleDelete}

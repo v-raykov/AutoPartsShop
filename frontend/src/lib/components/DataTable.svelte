@@ -2,7 +2,7 @@
     export let title = 'Data Table';
     export let data = [];
     export let columns = [];
-    export let onRowClick;
+    export let onCellClick;
     export let onAdd;
     export let onEdit;
     export let onDelete;
@@ -17,7 +17,7 @@
 <table>
     <thead>
     <tr>
-        {#each columns as { name }}
+        {#each columns as {name}}
             <th>{name}</th>
         {/each}
         {#if onEdit || onDelete}
@@ -28,21 +28,22 @@
     <tbody>
     {#each data as item}
         <tr>
-            {#each columns as { key, clickable }}
+            {#each columns as column}
                 <td>
-                    {#if clickable && onRowClick}
+                    {#if column.clickable && onCellClick}
                         <button
                                 class="component-name"
                                 on:click={(e) => {
-                                    e.stopPropagation();
-                                    onRowClick(item);
-                                }}
+            e.stopPropagation();
+            onCellClick(item, column);
+        }}
                         >
-                            {item[key]}
+                            {item[column.displayKey || column.key]}
                         </button>
                     {:else}
-                        {item[key]}
+                        {item[column.displayKey || column.key]}
                     {/if}
+
                 </td>
             {/each}
             {#if onEdit || onDelete}
@@ -59,3 +60,4 @@
     {/each}
     </tbody>
 </table>
+

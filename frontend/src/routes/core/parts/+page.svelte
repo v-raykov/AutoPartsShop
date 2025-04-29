@@ -37,7 +37,7 @@
         title="Parts List"
         data={parts}
         columns={columns}
-        onRowClick={handleRowClick}
+        onCellClick={handleRowClick}
         onAdd={addPart}
         onEdit={handleEdit}
         onDelete={handleDelete}

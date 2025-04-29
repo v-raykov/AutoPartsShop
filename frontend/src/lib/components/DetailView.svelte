@@ -10,7 +10,16 @@
     <h1>Details: {item[titleProp]}</h1>
     <ul>
         {#each fields as field}
-            <li><strong>{field.label}:</strong> {field.value}</li>
+            <li>
+                <strong>{field.label}:</strong>
+                {#if field.isButton && field.value}
+                    <button on:click={() => window.location.href = field.href} class="component-name">
+                        {field.value}
+                    </button>
+                {:else}
+                    {field.value}
+                {/if}
+            </li>
         {/each}
     </ul>
 {/if}

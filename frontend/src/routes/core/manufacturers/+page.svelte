@@ -37,7 +37,7 @@
         title="Manufacturers List"
         data={manufacturers}
         columns={columns}
-        onRowClick={handleRowClick}
+        onCellClick={handleRowClick}
         onAdd={addManufacturer}
         onEdit={handleEdit}
         onDelete={handleDelete}
