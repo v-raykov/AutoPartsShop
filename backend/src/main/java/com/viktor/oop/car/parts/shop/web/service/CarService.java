@@ -39,6 +39,24 @@ public class CarService {
         return modelMapper.map(getCarById(id), CarDto.class);
     }
 
+    public List<CarDto> getCarsByManufacturerId(UUID manufacturerId) {
+        return carRepository.findAllByManufacturerId(manufacturerId).stream()
+                .map(car -> modelMapper.map(car, CarDto.class))
+                .toList();
+    }
+
+    public List<CarDto> getCarsByBrandId(UUID brandId) {
+        return carRepository.findAllByBrandId(brandId).stream()
+                .map(car -> modelMapper.map(car, CarDto.class))
+                .toList();
+    }
+
+    public List<CarDto> getCarsByPartId(UUID partId) {
+        return carRepository.findAllByPartsId(partId).stream()
+                .map(car -> modelMapper.map(car, CarDto.class))
+                .toList();
+    }
+
     public CarDto addCar(CarDto carDto) {
         return modelMapper.map(carRepository.save(modelMapper.map(carDto, Car.class)), CarDto.class);
     }

@@ -12,4 +12,10 @@ public interface CarRepository extends JpaRepository<Car, UUID> {
     List<Car> findAllByBrand(Brand brand);
 
     List<Car> findAllByManufacturer(Manufacturer manufacturer);
+
+    List<Car> findAllByManufacturerId(UUID manufacturerId);
+
+    List<Car> findAllByBrandId(UUID brandId);
+
+    List<Car> findAllByPartsId(UUID partId);
 }

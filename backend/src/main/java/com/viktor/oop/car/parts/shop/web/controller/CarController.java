@@ -27,6 +27,21 @@ public class CarController {
         return ResponseEntity.status(HttpStatus.OK).body(carService.getCarDtoById(id));
     }
 
+    @GetMapping("/manufacturer/{manufacturerId}")
+    public ResponseEntity<List<CarDto>> getCarsByManufacturerId(@PathVariable UUID manufacturerId) {
+        return ResponseEntity.status(HttpStatus.OK).body(carService.getCarsByManufacturerId(manufacturerId));
+    }
+
+    @GetMapping("/brand/{brandId}")
+    public ResponseEntity<List<CarDto>> getCarsByBrandId(@PathVariable UUID brandId) {
+        return ResponseEntity.status(HttpStatus.OK).body(carService.getCarsByBrandId(brandId));
+    }
+
+    @GetMapping("/part/{partId}")
+    public ResponseEntity<List<CarDto>> getCarsByPartId(@PathVariable UUID partId) {
+        return ResponseEntity.status(HttpStatus.OK).body(carService.getCarsByPartId(partId));
+    }
+
     @PostMapping
     public ResponseEntity<CarDto> addCar(@Valid @RequestBody CarDto carDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(carService.addCar(carDto));
