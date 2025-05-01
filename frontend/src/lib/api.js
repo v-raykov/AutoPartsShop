@@ -9,32 +9,37 @@ const api = axios.create({
     }
 });
 
-export async function fetchAllParts(){
+export async function fetchAllParts() {
     const res = await api.get(`${API_URL}/part`)
     return await res.data;
 }
 
-export async function fetchPartById(id){
+export async function fetchPartById(id) {
     const res = await api.get(`${API_URL}/part/id/${id}`)
     return await res.data;
 }
 
-export async function fetchPartsByCarId(id){
+export async function fetchPartsByCarId(id) {
     const res = await api.get(`${API_URL}/part/car/${id}`)
     return await res.data;
 }
 
-export async function fetchAllCars(){
+export async function deletePart(id) {
+    const res = await api.delete(`${API_URL}/part/id/${id}`)
+    return await res.data;
+}
+
+export async function fetchAllCars() {
     const res = await api.get(`${API_URL}/car`)
     return await res.data;
 }
 
-export async function fetchCarById(id){
+export async function fetchCarById(id) {
     const res = await api.get(`${API_URL}/car/id/${id}`)
     return await res.data;
 }
 
-export async function fetchCarsByBrandId(id){
+export async function fetchCarsByBrandId(id) {
     const res = await api.get(`${API_URL}/car/brand/${id}`)
     return await res.data;
 }
@@ -44,29 +49,42 @@ export async function fetchCarsByManufacturerId(id) {
     return await res.data;
 }
 
-export async function fetchCarsByPartId(id){
+export async function fetchCarsByPartId(id) {
     const res = await api.get(`${API_URL}/car/part/${id}`)
     return await res.data;
 }
 
-export async function fetchAllBrands(){
+export async function deleteCar(id) {
+    const res = await api.delete(`${API_URL}/car/id/${id}`)
+    return await res.data;
+}
+
+export async function fetchAllBrands() {
     const res = await api.get(`${API_URL}/brand`)
     return await res.data;
 }
 
-export async function fetchBrandById(id){
+export async function fetchBrandById(id) {
     const res = await api.get(`${API_URL}/brand/id/${id}`)
     return await res.data;
 }
 
-export async function fetchAllManufacturers(){
+export async function deleteBrand(id) {
+    const res = await api.delete(`${API_URL}/brand/id/${id}`)
+    return await res.data;
+}
+
+export async function fetchAllManufacturers() {
     const res = await api.get(`${API_URL}/manufacturer`)
     return await res.data;
 }
 
-export async function fetchManufacturerById(id){
+export async function fetchManufacturerById(id) {
     const res = await api.get(`${API_URL}/manufacturer/id/${id}`)
     return await res.data;
 }
 
-
+export async function deleteManufacturer(id) {
+    const res = await api.delete(`${API_URL}/manufacturer/id/${id}`)
+    return await res.data;
+}

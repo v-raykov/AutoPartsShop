@@ -2,7 +2,7 @@
     import DataTable from '$lib/components/DataTable.svelte';
     import {goto} from "$app/navigation";
     import {onMount} from "svelte";
-    import {fetchAllCars, fetchBrandById, fetchManufacturerById} from "$lib/api.js";
+    import {fetchAllCars, fetchBrandById, fetchManufacturerById, deleteCar} from "$lib/api.js";
 
     let cars = [];
 
@@ -23,12 +23,11 @@
         }));
     });
 
-
     const columns = [
-        { name: 'Model', displayKey: 'model', valueKey: 'id', clickable: true, linkType: 'cars' },
-        { name: 'Brand', displayKey: 'brandName', valueKey: 'brandId', clickable: true, linkType: 'brands' },
-        { name: 'Manufacturer', displayKey: 'manufacturerName', valueKey: 'manufacturerId', clickable: true, linkType: 'manufacturers' },
-        { name: 'Year', displayKey: 'year' }
+        {name: 'Model', displayKey: 'model', valueKey: 'id', clickable: true, linkType: 'cars'},
+        {name: 'Brand', displayKey: 'brandName', valueKey: 'brandId', clickable: true, linkType: 'brands'},
+        {name: 'Manufacturer', displayKey: 'manufacturerName', valueKey: 'manufacturerId', clickable: true, linkType: 'manufacturers'},
+        {name: 'Year', displayKey: 'year'}
     ];
 
     function handleCellClick(car, column) {
@@ -42,8 +41,9 @@
         alert(`Edit car ${car.model} functionality coming soon!`);
     }
 
-    function handleDelete(car) {
+    async function handleDelete(car) {
         if (confirm(`Delete ${car.model}?`)) {
+            await deleteCar(car.id);
             cars = cars.filter(c => c.id !== car.id);
         }
     }

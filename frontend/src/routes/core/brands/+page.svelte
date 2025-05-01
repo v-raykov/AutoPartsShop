@@ -1,8 +1,8 @@
 <script>
     import DataTable from '$lib/components/DataTable.svelte';
-    import { goto } from "$app/navigation";
-    import { onMount } from "svelte";
-    import { fetchAllBrands, fetchCarsByBrandId } from "$lib/api.js";
+    import {goto} from "$app/navigation";
+    import {onMount} from "svelte";
+    import {deleteBrand, fetchAllBrands, fetchCarsByBrandId} from "$lib/api.js";
 
     let brands = [];
 
@@ -25,8 +25,8 @@
     });
 
     const columns = [
-        { name: 'Name', key: 'name', clickable: true },
-        { name: 'Cars', key: 'carModels' } // our custom logic will render this
+        {name: 'Name', key: 'name', clickable: true},
+        {name: 'Cars', key: 'carModels'}
     ];
 
     function handleCellClick(item, column) {
@@ -43,8 +43,11 @@
         alert('Edit brand functionality coming soon!');
     }
 
-    function handleDelete(brand) {
-        alert('Delete brand functionality coming soon!');
+    async function handleDelete(brand) {
+        if (confirm(`Delete ${brand.model}?`)) {
+            await deleteBrand(brand.id);
+            brands = brands.filter(b => b.id !== brand.id);
+        }
     }
 
     function addPart() {

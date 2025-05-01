@@ -1,8 +1,8 @@
 <script>
     import DataTable from '$lib/components/DataTable.svelte';
-    import { goto } from "$app/navigation";
+    import {goto} from "$app/navigation";
     import {onMount} from "svelte";
-    import {fetchAllManufacturers} from "$lib/api.js";
+    import {fetchAllManufacturers, deleteManufacturer} from "$lib/api.js";
 
     let manufacturers = [];
     onMount(async () => {
@@ -10,10 +10,10 @@
     })
 
     const columns = [
-        { name: 'Name', key: 'name', clickable: true },
-        { name: 'Address', key: 'address' },
-        { name: 'Phone Number', key: 'phoneNumber' },
-        { name: 'Email', key: 'email' },
+        {name: 'Name', key: 'name', clickable: true},
+        {name: 'Address', key: 'address'},
+        {name: 'Phone Number', key: 'phoneNumber'},
+        {name: 'Email', key: 'email'},
     ];
 
     function handleRowClick(manufacturer) {
@@ -24,8 +24,11 @@
         alert('Edit functionality coming soon!');
     }
 
-    function handleDelete(manufacturer) {
-        alert('Delete functionality coming soon!');
+    async function handleDelete(manufacturer) {
+        if (confirm(`Are you sure you want to delete ${manufacturer.name}?`)) {
+            await deleteManufacturer(manufacturer.id);
+            manufacturers = manufacturers.filter(p => p.id !== manufacturer.id);
+        }
     }
 
     function addManufacturer() {
