@@ -27,6 +27,11 @@ public class PartController {
         return ResponseEntity.status(HttpStatus.OK).body(partService.getPartDtoById(id));
     }
 
+    @GetMapping("/car/{id}")
+    public ResponseEntity<List<PartDto>> getPartsByCarId(@PathVariable UUID id) {
+        return ResponseEntity.status(HttpStatus.OK).body(partService.getPartsByCarId(id));
+    }
+
     @PostMapping
     public ResponseEntity<PartDto> addPart(@RequestBody PartDto partDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(partService.addPart(partDto));

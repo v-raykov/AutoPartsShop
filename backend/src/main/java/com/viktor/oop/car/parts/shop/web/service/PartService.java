@@ -38,6 +38,12 @@ public class PartService {
         return modelMapper.map(getPartById(id), PartDto.class);
     }
 
+    public List<PartDto> getPartsByCarId(UUID id) {
+        return partRepository.findAllByCarsId(id).stream()
+                .map(part -> modelMapper.map(part, PartDto.class))
+                .toList();
+    }
+
     public void updatePartQuantity(UUID id, int quantity) {
         var part = getPartById(id);
         part.changeQuantity(quantity);
