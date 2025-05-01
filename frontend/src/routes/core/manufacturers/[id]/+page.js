@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
-import {fetchManufacturerById} from "$lib/api.js";
+import { fetchManufacturerById, fetchCarsByManufacturerId } from '$lib/api.js';
 
-export async function load({params}) {
+export async function load({ params }) {
     const id = params.id;
     const manufacturer = await fetchManufacturerById(id);
 
@@ -9,7 +9,10 @@ export async function load({params}) {
         throw error(404, 'Manufacturer not found');
     }
 
+    const cars = await fetchCarsByManufacturerId(id);
+
     return {
-        manufacturer
+        manufacturer,
+        cars
     };
 }

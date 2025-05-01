@@ -19,6 +19,11 @@ export async function fetchPartById(id){
     return await res.data;
 }
 
+export async function fetchPartsByCarId(id){
+    const res = await api.get(`${API_URL}/part/car/${id}`)
+    return await res.data;
+}
+
 export async function fetchAllCars(){
     const res = await api.get(`${API_URL}/car`)
     return await res.data;
@@ -31,6 +36,16 @@ export async function fetchCarById(id){
 
 export async function fetchCarsByBrandId(id){
     const res = await api.get(`${API_URL}/car/brand/${id}`)
+    return await res.data;
+}
+
+export async function fetchCarsByManufacturerId(id) {
+    const res = await api.get(`${API_URL}/car/manufacturer/${id}`)
+    return await res.data;
+}
+
+export async function fetchCarsByPartId(id){
+    const res = await api.get(`${API_URL}/car/part/${id}`)
     return await res.data;
 }
 

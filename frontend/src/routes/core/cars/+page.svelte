@@ -1,6 +1,5 @@
 <script>
     import DataTable from '$lib/components/DataTable.svelte';
-    import '../style.css';
     import {goto} from "$app/navigation";
     import {onMount} from "svelte";
     import {fetchAllCars, fetchBrandById, fetchManufacturerById} from "$lib/api.js";
