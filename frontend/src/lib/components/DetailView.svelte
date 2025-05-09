@@ -1,4 +1,10 @@
 <script>
+    import { goto } from "$app/navigation";
+
+    function navigateTo(url) {
+        goto(url);
+    }
+
     export let item;
     export let titleProp = 'name';
     export let fields = [];
@@ -16,16 +22,17 @@
                 {#if field.isButtonGroup && field.buttons}
                     {#each field.buttons as btn, i}
                         <button
-                                on:click={() => window.location.href = btn.href}
                                 class="component-name"
+                                on:click={() => navigateTo(btn.href)}
                         >
                             {btn.label}
-                        </button>{i < field.buttons.length - 1 ? ', ' : ''}
+                        </button>
+                        {i < field.buttons.length - 1 ? ', ' : ''}
                     {/each}
                 {:else if field.isButton && field.href}
                     <button
-                            on:click={() => window.location.href = field.href}
                             class="component-name"
+                            on:click={() => navigateTo(field.href)}
                     >
                         {field.value}
                     </button>

@@ -47,14 +47,3 @@
         onEdit={handleEdit}
         onDelete={handleDelete}
 />
-
-
-<DataTable
-        title="Parts List"
-        data={parts}
-        columns={columns}
-        onCellClick={handleRowClick}
-        onAdd={addPart}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-/>

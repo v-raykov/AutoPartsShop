@@ -1,5 +1,5 @@
 services:
-  auto_parts_shop-backend:
+  auto-parts-shop-backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -7,16 +7,16 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://auto_parts_shop-db:3306/auto_parts_shop_db
+      - SPRING_DATASOURCE_URL=jdbc:mysql://auto-parts-shop-db:3306/auto_parts_shop_db
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL=true
     depends_on:
-      - auto_parts_shop-db
-    entrypoint: ["/app/wait-for-it.sh", "auto_parts_shop-db:3306", "--", "java", "-jar", "/app/app.jar"]
+      - auto-parts-shop-db
+    entrypoint: ["/app/wait-for-it.sh", "auto-parts-shop-db:3306", "--", "java", "-jar", "/app/app.jar"]
 
-  auto_parts_shop-db:
+  auto-parts-shop-db:
     image: mysql:8.0
     container_name: AutoPartsShopDB
     environment:
@@ -25,20 +25,20 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - auto_parts_shop-db-data:/var/lib/mysql
+      - auto-parts-shop-db-data:/var/lib/mysql
 
-  auto_parts_shop-frontend:
+  auto-parts-shop-frontend:
     build:
       context: ./frontend
     container_name: AutoPartsShopFrontend
     ports:
       - "5173:5173"
     environment:
-      - VITE_BACKEND_URL=http://localhost:8080
+      - VITE_BACKEND_URL=http://auto-parts-shop-backend:8080
     depends_on:
-      - auto_parts_shop-backend
+      - auto-parts-shop-backend
     working_dir: /app
     command: [ "npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173" ]
 
 volumes:
-  auto_parts_shop-db-data:
+  auto-parts-shop-db-data:
