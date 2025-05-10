@@ -8,7 +8,7 @@
         addBrand
     } from '$lib/api.js';
     import { goto } from '$app/navigation';
-    import "./style.css"
+    import "../../style.css"
 
     let model = '';
     let year = '';

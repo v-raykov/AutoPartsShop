@@ -32,7 +32,7 @@
     }
 
     function addManufacturer() {
-        alert('Add Manufacturer functionality coming soon!');
+        goto("/core/manufacturers/create");
     }
 </script>
 
