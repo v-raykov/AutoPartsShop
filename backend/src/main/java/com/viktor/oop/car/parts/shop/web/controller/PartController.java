@@ -1,5 +1,6 @@
 package com.viktor.oop.car.parts.shop.web.controller;
 
+import com.viktor.oop.car.parts.shop.model.PartCategory;
 import com.viktor.oop.car.parts.shop.model.dto.PartDto;
 import com.viktor.oop.car.parts.shop.model.dto.update.PartUpdateDto;
 import com.viktor.oop.car.parts.shop.web.service.PartService;
@@ -65,5 +66,10 @@ public class PartController {
     public ResponseEntity<Void> updatePart(@PathVariable UUID id, @RequestBody PartUpdateDto dto) {
         partService.updatePart(id, dto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<PartCategory[]> getAllPartCategories() {
+        return ResponseEntity.status(HttpStatus.OK).body(PartCategory.values());
     }
 }
