@@ -4,6 +4,7 @@ import com.viktor.oop.car.parts.shop.config.exception.PartNotFoundException;
 import com.viktor.oop.car.parts.shop.model.dto.PartDto;
 import com.viktor.oop.car.parts.shop.model.dto.update.PartUpdateDto;
 import com.viktor.oop.car.parts.shop.model.entity.Part;
+import com.viktor.oop.car.parts.shop.model.event.creation.CarCreationEvent;
 import com.viktor.oop.car.parts.shop.model.event.update.PartCarAdditionEvent;
 import com.viktor.oop.car.parts.shop.model.event.deletion.CarDeletionEvent;
 import com.viktor.oop.car.parts.shop.model.event.update.PartCarDeletionEvent;
@@ -77,6 +78,14 @@ public class PartService {
         var part = getPartById(id);
         updateEntity(dto, part);
         partRepository.save(part);
+    }
+
+    @EventListener
+    public void onCarCreationEvent(CarCreationEvent event) {
+        var car = event.car();
+        var parts = car.getParts();
+        parts.forEach(part -> part.addCar(car));
+        partRepository.saveAll(parts);
     }
 
     @EventListener

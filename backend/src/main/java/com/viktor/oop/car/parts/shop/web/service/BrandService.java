@@ -47,11 +47,14 @@ public class BrandService {
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void onCarDeletionEvent(CarDeletionEvent event) {
-        var car = event.car();
-        brandRepository.findByCarsId(car.getId()).forEach(brand -> {
-            brand.removeCar(car);
+        var brand = event.brand();
+        if (brand.getCars().size() == 1) {
+            eventPublisher.publishEvent(new BrandDeletionEvent(brand));
+            brandRepository.delete(brand);
+        } else {
+            brand.removeCar(event.car());
             brandRepository.save(brand);
-        });
+        }
     }
 
     private Brand getBrandById(UUID id) {
