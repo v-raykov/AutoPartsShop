@@ -50,9 +50,10 @@
         }
     }
 
-    function addPart() {
-        alert('Add part functionality coming soon!');
+    function addBrand() {
+        goto('/core/brands/create');
     }
+
 </script>
 
 <DataTable
@@ -61,7 +62,6 @@
         columns={columns}
         onCellClick={handleCellClick}
         onCarClick={handleCarClick}
-        onAdd={addPart}
         onEdit={handleEdit}
         onDelete={handleDelete}
 />

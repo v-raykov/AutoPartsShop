@@ -49,7 +49,7 @@
     }
 
     function addCar() {
-        alert(`Add car functionality coming soon!`);
+        goto('/core/cars/create');
     }
 </script>
 
