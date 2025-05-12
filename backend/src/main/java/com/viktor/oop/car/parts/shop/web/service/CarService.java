@@ -3,6 +3,7 @@ package com.viktor.oop.car.parts.shop.web.service;
 import com.viktor.oop.car.parts.shop.config.exception.CarNotFoundException;
 import com.viktor.oop.car.parts.shop.model.dto.CarDto;
 import com.viktor.oop.car.parts.shop.model.entity.Car;
+import com.viktor.oop.car.parts.shop.model.event.creation.CarCreationEvent;
 import com.viktor.oop.car.parts.shop.model.event.creation.PartCreationEvent;
 import com.viktor.oop.car.parts.shop.model.event.deletion.BrandDeletionEvent;
 import com.viktor.oop.car.parts.shop.model.event.deletion.CarDeletionEvent;
@@ -58,7 +59,12 @@ public class CarService {
     }
 
     public CarDto addCar(CarDto carDto) {
-        return modelMapper.map(carRepository.save(modelMapper.map(carDto, Car.class)), CarDto.class);
+        var car = carRepository.save(modelMapper.map(carDto, Car.class));
+        var parts = car.getParts();
+        if (parts != null) {
+            eventPublisher.publishEvent(new CarCreationEvent(car, parts));
+        }
+        return modelMapper.map(car, CarDto.class);
     }
 
     @Transactional

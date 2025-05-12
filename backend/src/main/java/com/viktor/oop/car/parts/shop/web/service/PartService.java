@@ -4,6 +4,7 @@ import com.viktor.oop.car.parts.shop.config.exception.PartNotFoundException;
 import com.viktor.oop.car.parts.shop.model.dto.PartDto;
 import com.viktor.oop.car.parts.shop.model.dto.update.PartUpdateDto;
 import com.viktor.oop.car.parts.shop.model.entity.Part;
+import com.viktor.oop.car.parts.shop.model.event.creation.CarCreationEvent;
 import com.viktor.oop.car.parts.shop.model.event.update.PartCarAdditionEvent;
 import com.viktor.oop.car.parts.shop.model.event.deletion.CarDeletionEvent;
 import com.viktor.oop.car.parts.shop.model.event.update.PartCarDeletionEvent;
@@ -61,9 +62,7 @@ public class PartService {
     }
 
     public void addCarToPart(UUID id, UUID carId) {
-        var part = getPartById(id);
-        eventPublisher.publishEvent(new PartCarAdditionEvent(part, carId));
-        partRepository.save(part);
+        addCarToPart(getPartById(id), carId);
     }
 
     @Transactional
@@ -85,6 +84,18 @@ public class PartService {
         var parts = car.getParts();
         parts.forEach(part -> part.removeCar(car));
         partRepository.saveAll(parts);
+    }
+
+    @EventListener
+    public void onCarCreationEvent(CarCreationEvent event) {
+        var car = event.car();
+        var parts = event.parts();
+        parts.forEach(part -> addCarToPart(part, car.getId()));
+    }
+
+    private void addCarToPart(Part part, UUID carId) {
+        eventPublisher.publishEvent(new PartCarAdditionEvent(part, carId));
+        partRepository.save(part);
     }
 
     private Part getPartById(UUID id) {
