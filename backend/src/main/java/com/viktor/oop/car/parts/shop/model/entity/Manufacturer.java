@@ -30,12 +30,7 @@ public class Manufacturer {
     @OneToMany(mappedBy = "manufacturer", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Car> cars;
 
-    public void addCar(Car car) {
-        cars.add(car);
-    }
-
     public void removeCar(Car car) {
         cars.remove(car);
     }
-
 }
