@@ -30,7 +30,7 @@
     }
 
     function addPart() {
-        alert('Add part functionality coming soon!');
+        goto('/core/parts/create');
     }
 
     function handleEdit(part) {

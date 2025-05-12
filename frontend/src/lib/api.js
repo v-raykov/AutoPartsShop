@@ -59,19 +59,9 @@ export async function fetchCarsByPartId(id) {
 }
 
 export async function addCar(car) {
-    console.log('Sending car data:', JSON.stringify(car));
-    try {
-        const res = await api.post('/car', car);
-        console.log('API Response:', res.data);
-        return res.data;
-    } catch (error) {
-        console.error('Error in POST request:', error);
-        if (error.response) {
-            console.log('Error details:', error.response.data);
-        }
-    }
+    const res = await api.post('/car', car);
+    return res.data;
 }
-
 
 export async function deleteCar(id) {
     const res = await api.delete(`/car/id/${id}`)
@@ -86,6 +76,11 @@ export async function fetchAllManufacturers() {
 export async function fetchManufacturerById(id) {
     const res = await api.get(`/manufacturer/id/${id}`)
     return await res.data;
+}
+
+export async function addManufacturer(manufacturer) {
+    const res = await api.post('/manufacturer', manufacturer);
+    return res.data;
 }
 
 export async function deleteManufacturer(id) {
@@ -105,6 +100,16 @@ export async function fetchPartById(id) {
 
 export async function fetchPartsByCarId(id) {
     const res = await api.get(`/part/car/${id}`)
+    return await res.data;
+}
+
+export async function addPart(part) {
+    const res = await api.post('/part', part);
+    return res.data;
+}
+
+export async function fetchAllCategories() {
+    const res = await api.get(`/part/category`)
     return await res.data;
 }
 

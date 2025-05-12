@@ -21,6 +21,8 @@ label {
 }
 
 input[type="text"],
+input[type="tel"],
+input[type="email"],
 input[type="number"],
 select {
     padding: 0.75rem;
