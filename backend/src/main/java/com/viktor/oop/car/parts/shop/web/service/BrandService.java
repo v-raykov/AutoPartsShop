@@ -45,15 +45,6 @@ public class BrandService {
         brandRepository.delete(brand);
     }
 
-    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
-    public void onCarDeletionEvent(CarDeletionEvent event) {
-        var car = event.car();
-        brandRepository.findByCarsId(car.getId()).forEach(brand -> {
-            brand.removeCar(car);
-            brandRepository.save(brand);
-        });
-    }
-
     private Brand getBrandById(UUID id) {
         return brandRepository.findById(id)
                 .orElseThrow(() -> new BrandNotFoundException(id.toString()));

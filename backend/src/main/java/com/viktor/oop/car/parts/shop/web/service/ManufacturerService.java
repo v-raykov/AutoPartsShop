@@ -54,15 +54,6 @@ public class ManufacturerService {
         manufacturerRepository.delete(manufacturer);
     }
 
-    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
-    public void onCarDeletionEvent(CarDeletionEvent event) {
-        var car = event.car();
-        manufacturerRepository.findByCarsId(car.getId()).forEach(manufacturer -> {
-            manufacturer.removeCar(car);
-            manufacturerRepository.save(manufacturer);
-        });
-    }
-
     private Manufacturer getManufacturerById(UUID id) {
         return manufacturerRepository.findById(id)
                 .orElseThrow(() -> new ManufacturerNotFoundException(id.toString()));

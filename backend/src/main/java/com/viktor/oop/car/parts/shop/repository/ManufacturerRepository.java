@@ -7,5 +7,4 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ManufacturerRepository extends JpaRepository<Manufacturer, UUID> {
-    List<Manufacturer> findByCarsId(UUID id);
 }
