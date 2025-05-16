@@ -21,7 +21,7 @@
     }
 
     function handleEdit(manufacturer) {
-        alert('Edit functionality coming soon!');
+        goto(`/core/manufacturers/${manufacturer.id}/edit`);
     }
 
     async function handleDelete(manufacturer) {

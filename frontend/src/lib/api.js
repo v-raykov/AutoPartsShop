@@ -93,6 +93,11 @@ export async function deleteManufacturer(id) {
     return await res.data;
 }
 
+export async function updateManufacturer(manufacturer) {
+    const res = await api.put(`/manufacturer/id/${manufacturer.id}`, manufacturer);
+    return res.data;
+}
+
 export async function fetchAllParts() {
     const res = await api.get(`/part`)
     return await res.data;
