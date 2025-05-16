@@ -38,7 +38,7 @@
     }
 
     function handleEdit(car) {
-        alert(`Edit car ${car.model} functionality coming soon!`);
+        goto(`/core/cars/${car.id}/edit`);
     }
 
     async function handleDelete(car) {

@@ -34,7 +34,7 @@
     }
 
     function handleEdit(part) {
-        alert('Edit functionality coming soon!');
+        goto(`/core/parts/${part.id}/edit`);
     }
 </script>
 

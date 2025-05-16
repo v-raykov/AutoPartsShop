@@ -19,7 +19,7 @@
         { label: 'Quantity', value: part.quantity },
         {
             label: 'Compatible Cars',
-            isButtonGroup: true, // NEW: identify group of buttons
+            isButtonGroup: true,
             buttons: carButtons
         }
     ] : [];

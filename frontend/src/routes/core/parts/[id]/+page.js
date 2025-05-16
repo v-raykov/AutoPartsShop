@@ -9,7 +9,7 @@ export async function load({ params }) {
         throw error(404, 'Part not found');
     }
 
-    const cars = await fetchCarsByPartId(id); // uses part ID, not carIds
+    const cars = await fetchCarsByPartId(id);
 
     return {
         part,

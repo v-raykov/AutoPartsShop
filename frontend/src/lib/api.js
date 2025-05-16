@@ -68,6 +68,11 @@ export async function deleteCar(id) {
     return await res.data;
 }
 
+export async function updateCar(car) {
+    const res = await api.put(`/car/id/${car.id}`, car);
+    return res.data;
+}
+
 export async function fetchAllManufacturers() {
     const res = await api.get(`/manufacturer`)
     return await res.data;
@@ -116,4 +121,22 @@ export async function fetchAllCategories() {
 export async function deletePart(id) {
     const res = await api.delete(`/part/id/${id}`)
     return await res.data;
+}
+
+export async function updatePart(part) {
+    const res = await api.put(`/part/id/${part.id}`, part);
+    return res.data;
+}
+
+export async function changePartQuantity(id, quantity) {
+    const res = await api.put(`/part/id/${id}/quantity?quantity=${quantity}`);
+    return res.data;
+}
+
+export async function addCarToPart(partId, carId) {
+    await api.post(`/part/id/${partId}/car?carId=${carId}`);
+}
+
+export async function removeCarFromPart(partId, carId) {
+    await api.delete(`/part/id/${partId}/car?carId=${carId}`);
 }
