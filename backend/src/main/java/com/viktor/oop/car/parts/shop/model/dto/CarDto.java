@@ -3,7 +3,6 @@ package com.viktor.oop.car.parts.shop.model.dto;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 

@@ -1,6 +1,7 @@
 package com.viktor.oop.car.parts.shop.web.controller;
 
 import com.viktor.oop.car.parts.shop.model.dto.CarDto;
+import com.viktor.oop.car.parts.shop.model.dto.update.CarUpdateDto;
 import com.viktor.oop.car.parts.shop.web.service.CarService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -53,4 +54,9 @@ public class CarController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @PutMapping("/id/{id}")
+    public ResponseEntity<Void> updateCar(@PathVariable UUID id, @RequestBody CarUpdateDto carDto) {
+        carService.updateCar(id, carDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
